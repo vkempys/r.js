@@ -26801,7 +26801,8 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
             return config.useStrict ? contents : contents.replace(pragma.useStrictRegExp, '$1');
         },
 
-        namespace: function (fileContents, ns, onLifecycleName) {
+        namespace: function (fileContents, config, onLifecycleName) {
+            var ns = config.ns;
             if (ns) {
                 //Namespace require/define calls
                 fileContents = fileContents.replace(pragma.configRegExp, '$1' + ns + '.$2$3(');
@@ -26845,6 +26846,7 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
                     fileContents = "var " + ns + ";(function () { if (!" + ns + " || !" + ns + ".requirejs) {\n" +
                                     "if (!" + ns + ") { " + ns + ' = {}; } else { require = ' + ns + '; }\n' +
                                     fileContents +
+                                    (config.namespaceWrapLocals ? config.namespaceWrapLocals : '') +
                                     "\n" +
                                     ns + ".requirejs = requirejs;" +
                                     ns + ".require = require;" +
@@ -27013,7 +27015,7 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
 
             //Do namespacing
             if (onLifecycleName === 'OnSave' && config.namespace) {
-                fileContents = pragma.namespace(fileContents, config.namespace, onLifecycleName);
+                fileContents = pragma.namespace(fileContents, config, onLifecycleName);
             }
 
 
@@ -30203,7 +30205,7 @@ define('build', function (require) {
                                 }
 
                                 if (namespace) {
-                                    currContents = pragma.namespace(currContents, namespace);
+                                    currContents = pragma.namespace(currContents, config);
                                 }
 
                                 currContents = build.toTransport(namespace, moduleName, path, currContents, layer, {
