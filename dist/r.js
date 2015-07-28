@@ -26802,7 +26802,8 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
         },
 
         namespace: function (fileContents, config, onLifecycleName) {
-            var ns = config.namespace;
+            var ns = config.namespace,
+                namespaceWrapLocals = config.namespaceWrapLocals ? config.namespaceWrapLocals : '';
             if (ns) {
                 //Namespace require/define calls
                 fileContents = fileContents.replace(pragma.configRegExp, '$1' + ns + '.$2$3(');
@@ -26845,8 +26846,8 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
                     //to contain the API globals.
                     fileContents = "var " + ns + ";(function () { if (!" + ns + " || !" + ns + ".requirejs) {\n" +
                                     "if (!" + ns + ") { " + ns + ' = {}; } else { require = ' + ns + '; }\n' +
+                                    namespaceWrapLocals +
                                     fileContents +
-                                    (config.namespaceWrapLocals ? config.namespaceWrapLocals : '') +
                                     "\n" +
                                     ns + ".requirejs = requirejs;" +
                                     ns + ".require = require;" +
