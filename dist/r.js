@@ -26802,7 +26802,7 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
         },
 
         namespace: function (fileContents, config, onLifecycleName) {
-            var ns = config.ns;
+            var ns = config.namespace;
             if (ns) {
                 //Namespace require/define calls
                 fileContents = fileContents.replace(pragma.configRegExp, '$1' + ns + '.$2$3(');
