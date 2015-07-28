@@ -26847,6 +26847,7 @@ define('pragma', ['parse', 'logger'], function (parse, logger) {
                     fileContents = "var " + ns + ";(function () { if (!" + ns + " || !" + ns + ".requirejs) {\n" +
                                     "if (!" + ns + ") { " + ns + ' = {}; } else { require = ' + ns + '; }\n' +
                                     namespaceWrapLocals +
+                                    "\n" +
                                     fileContents +
                                     "\n" +
                                     ns + ".requirejs = requirejs;" +
