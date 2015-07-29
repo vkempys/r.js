@@ -1,4 +1,6 @@
 {
+    "name": "requirejs",
+    "version": "2.1.21",
     "volo": {
         "url": "https://raw.github.com/jrburke/r.js/{version}/dist/r.js"
     }
